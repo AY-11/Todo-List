@@ -24,7 +24,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch("http://localhost:3001/todos")
+    fetch(`${import.meta.env.VITE_API_URL}/todos`)
       .then(res => res.json())
       .then(data => setTodoList(data));
   }, []);
@@ -33,7 +33,7 @@ function App() {
   //   setTodoList(prev => prev.filter((_, index) => (index !== deleteIndex)));
   // }
   async function removeTodo(deleteIndex: number) {
-  const res = await fetch(`http://localhost:3001/todos/${deleteIndex}`, {
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/todos/${deleteIndex}`, {
     method: "DELETE"
   });
 
@@ -41,13 +41,13 @@ function App() {
   setTodoList(data);
   }
 
-  
+
   async function handleAddToList(todoStructure: Todo) {
   if (!todoStructure.title.trim() || !todoStructure.description.trim()) return;
 
   if (edit.editingTodo !== null && edit.editingIndex !== null) {
     // UPDATE
-    const res = await fetch(`http://localhost:3001/todos/${edit.editingIndex}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/todos/${edit.editingIndex}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(todoStructure)
@@ -60,7 +60,7 @@ function App() {
   } 
   else {
     // ADD
-    const res = await fetch("http://localhost:3001/todos", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/todos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(todoStructure)

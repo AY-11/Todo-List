@@ -23,6 +23,8 @@ function AddTodoPage({edit ,handleAddToList, setPage}:Props){
         description:''
     });
 
+    
+
     useEffect(() => {
     if (edit.editingTodo) {
         setTodoStructure({
@@ -40,10 +42,12 @@ function AddTodoPage({edit ,handleAddToList, setPage}:Props){
     }
 
 
+
     async function handleAdd(){
 
         await handleAddToList(todoStructure);
         setTodoStructure({title:'', description:''});
+        
 
     }
 
@@ -53,6 +57,7 @@ function AddTodoPage({edit ,handleAddToList, setPage}:Props){
 
     function handlePage(){
         setPage('home');
+        
     }
 
    
@@ -78,11 +83,12 @@ function AddTodoPage({edit ,handleAddToList, setPage}:Props){
             </div>
             <div className="space-x-2 mt-1">
             <button className="bg-gray-500 text-white rounded-md hover:bg-black hover:cursor-pointer p-1 " onClick={handleAdd}>{edit.editingTodo !== null? "Update" : "Add"}</button>
-            <button className="bg-gray-500 text-white rounded-md hover:bg-black hover:cursor-pointer p-1 " onClick={handleReset}>Reset</button>
+            {edit.editingTodo !== null? '' : <button className="bg-gray-500 text-white rounded-md hover:bg-black hover:cursor-pointer p-1 " onClick={handleReset}>Reset</button>}
+            
             </div>
             </div>
             <div className=" mt-1">
-                <button className="bg-gray-500 text-white rounded-md hover:bg-black hover:cursor-pointer p-1 " onClick={handlePage}>Go To Home</button>
+                {edit.editingTodo !== null ? '' : <button className="bg-gray-500 text-white rounded-md hover:bg-black hover:cursor-pointer p-1 " onClick={handlePage}>Go To Home</button>}
             </div>
             
             </div>

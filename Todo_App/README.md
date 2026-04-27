@@ -3,11 +3,11 @@
 A simple full-stack Todo application built using:
 
 - Frontend: React + TypeScript + Vite (done)
-- Backend: Node.js + Express (tried but not working so removed)
+- Backend: Node.js + Express (done)
 
 ---
 
-##  Features
+# Features
 
 - Add Todo
 - Update Todo
@@ -16,7 +16,7 @@ A simple full-stack Todo application built using:
 
 ---
 
-## Project Structure
+# Project Structure
 
 Todo_App/
  ├── react files
@@ -24,21 +24,21 @@ Todo_App/
 
 ---
 
-##  How to run locally
+# How to run locally
 
-### Backend
+# Backend
 cd backend
 npm install
 node server.js
 
-### Frontend
+# Frontend
 cd frontend
 npm install
 npm run dev
 
 ---
 
-##  API Endpoints
+# API Endpoints
 
 - GET /todos
 - POST /todos
@@ -47,13 +47,13 @@ npm run dev
 
 ---
 
-##  Notes
+#  Notes
 
 - Data is stored in memory (no database used)
 - Uses index-based update/delete (for learning purpose)
 
 ---
 
-##  Author
+# Author
 
 Aditya Yadav

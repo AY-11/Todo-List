@@ -8,39 +8,38 @@ app.use(express.json());
 
 let todos = [];
 
-// GET
+// GET all todos
 app.get("/todos", (req, res) => {
   res.json(todos);
 });
 
-// POST
+// ADD todo
 app.post("/todos", (req, res) => {
   todos.push(req.body);
   res.json(todos);
 });
 
-// PUT (update)
-
-
+// UPDATE todo
 app.put("/todos/:index", (req, res) => {
   const index = Number(req.params.index);
 
-  if (isNaN(index) || index < 0 || index >= todos.length) {
-    return res.status(400).json({ error: "Invalid index" });
+  if (index < 0 || index >= todos.length) {
+    return res.status(404).json({ error: "Invalid index" });
   }
 
   todos[index] = req.body;
-
   res.json(todos);
 });
-// DELETE
-app.delete("/todos/:index", (req, res) => {
-  console.log("DELETE HIT:", req.params.index);
 
+// DELETE todo
+app.delete("/todos/:index", (req, res) => {
   const index = Number(req.params.index);
 
-  todos.splice(index, 1);
+  if (index < 0 || index >= todos.length) {
+    return res.status(404).json({ error: "Invalid index" });
+  }
 
+  todos.splice(index, 1);
   res.json(todos);
 });
 

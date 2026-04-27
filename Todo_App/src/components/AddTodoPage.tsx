@@ -29,8 +29,10 @@ function AddTodoPage({edit ,handleAddToList, setPage}:Props){
         title: edit.editingTodo.title,
         description: edit.editingTodo.description
         });
+    }else {
+    setTodoStructure({ title: "", description: "" });
     }
-    }, [edit]);
+    }, [edit.editingTodo]);
 
     function handleValue(identifier: 'title' | 'description', event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>){
         console.log(event.target.value);
@@ -38,9 +40,9 @@ function AddTodoPage({edit ,handleAddToList, setPage}:Props){
     }
 
 
-    function handleAdd(){
+    async function handleAdd(){
 
-        handleAddToList(todoStructure);
+        await handleAddToList(todoStructure);
         setTodoStructure({title:'', description:''});
 
     }
@@ -57,23 +59,34 @@ function AddTodoPage({edit ,handleAddToList, setPage}:Props){
 
     return(
         <>  
-
-            <p>Todo App</p>
-
+            <div className="bg-red-500 w-screen h-screen flex items-center">
+            <div className="bg-yellow-500 w-[400px] mx-auto rounded-2xl p-3">
+            <p className="text-6xl text-white bg-black font-bold p-1 rounded-t-lg">Add Todo</p>
+            <div  className="bg-white rounded-b-lg p-2">
             <div>
-                <label htmlFor='title'>Title</label>
-                <input type='text' id='title' name='title' value={todoStructure.title} onChange={(event)=>{handleValue('title', event)}}/>
+                <div>
+                    <label htmlFor='title' className="text-lg font-bold">Title</label>
+                </div>
+                <input className="border-1 rounded-md p-1 w-full" type='text' id='title' name='title' value={todoStructure.title} onChange={(event)=>{handleValue('title', event)}} placeholder="Enter Title"/>
             </div>
 
             <div>
-                <label htmlFor='description'>Todo Description</label>
-                <textarea  id='description' name='description' rows={6} value={todoStructure.description} onChange={(event)=>{handleValue('description',event)}}/>
+                <div>
+                    <label htmlFor='description' className="text-lg font-bold">Todo Description</label>
+                </div>
+                <textarea className='border-2 rounded-md p-1 w-full' id='description' name='description' rows={6} value={todoStructure.description} onChange={(event)=>{handleValue('description',event)}} placeholder="Enter Description"/>
             </div>
-
-            <button onClick={handleAdd}>{edit.editingTodo !== null? "Update" : "Add"}</button>
-            <button onClick={handleReset}>Reset</button>
-            <button onClick={handlePage}>Go To Home</button>
+            <div className="space-x-2 mt-1">
+            <button className="bg-gray-500 text-white rounded-md hover:bg-black hover:cursor-pointer p-1 " onClick={handleAdd}>{edit.editingTodo !== null? "Update" : "Add"}</button>
+            <button className="bg-gray-500 text-white rounded-md hover:bg-black hover:cursor-pointer p-1 " onClick={handleReset}>Reset</button>
+            </div>
+            </div>
+            <div className=" mt-1">
+                <button className="bg-gray-500 text-white rounded-md hover:bg-black hover:cursor-pointer p-1 " onClick={handlePage}>Go To Home</button>
+            </div>
             
+            </div>
+            </div>
         </>
     )
 }

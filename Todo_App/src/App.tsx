@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import AddTodoPage from "./components/AddTodoPage";
 import HomePage from "./components/HomePage";
 
@@ -22,32 +22,77 @@ function App() {
   editingIndex: null
   });
 
-  function removeTodo(deleteIndex: number){
-    setTodoList(prev => prev.filter((_, index) => (index !== deleteIndex)));
+
+  useEffect(() => {
+    fetch("http://localhost:3001/todos")
+      .then(res => res.json())
+      .then(data => setTodoList(data));
+  }, []);
+
+  // function removeTodo(deleteIndex: number){
+  //   setTodoList(prev => prev.filter((_, index) => (index !== deleteIndex)));
+  // }
+  async function removeTodo(deleteIndex: number) {
+  const res = await fetch(`http://localhost:3001/todos/${deleteIndex}`, {
+    method: "DELETE"
+  });
+
+  const data = await res.json();
+  setTodoList(data);
   }
 
- 
+  
+  async function handleAddToList(todoStructure: Todo) {
+  if (!todoStructure.title.trim() || !todoStructure.description.trim()) return;
 
- 
-  function handleAddToList(todoStructure: Todo){
-    if(!todoStructure.title.trim() || !todoStructure.description.trim() ) return;
-    
+  if (edit.editingTodo !== null && edit.editingIndex !== null) {
+    // UPDATE
+    const res = await fetch(`http://localhost:3001/todos/${edit.editingIndex}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(todoStructure)
+    });
 
-    if(edit.editingTodo){
-      setTodoList(prev =>
-      prev.map((item, index) =>
-        index === edit.editingIndex ? todoStructure : item
-      )
-    );
+    const data = await res.json();
+    setTodoList(data);
 
     setEdit({ editingTodo: null, editingIndex: null });
-    }
-    else{
-    setTodoList(prev => ([...prev, todoStructure]));
-    }
+  } 
+  else {
+    // ADD
+    const res = await fetch("http://localhost:3001/todos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(todoStructure)
+    });
 
-    setPage('home');
+    const data = await res.json();
+    setTodoList(data);
   }
+
+  setPage("home");
+  }
+
+ 
+  // function handleAddToList(todoStructure: Todo){
+  //   if(!todoStructure.title.trim() || !todoStructure.description.trim() ) return;
+    
+
+  //   if(edit.editingTodo){
+  //     setTodoList(prev =>
+  //     prev.map((item, index) =>
+  //       index === edit.editingIndex ? todoStructure : item
+  //     )
+  //   );
+
+  //   setEdit({ editingTodo: null, editingIndex: null });
+  //   }
+  //   else{
+  //   setTodoList(prev => ([...prev, todoStructure]));
+  //   }
+
+  //   setPage('home');
+  // }
 
   function handleUpdateList(selectedTodo: Todo, updateIndex: number){
     setEdit({editingTodo:selectedTodo, editingIndex:updateIndex});
